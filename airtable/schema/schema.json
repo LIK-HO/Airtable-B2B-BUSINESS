@@ -1,0 +1,31 @@
+{
+  "version": "0.1.0",
+  "target": {"workspace": "B2B - BUSINESS", "base": "B2B - BUSINESS"},
+  "tables": [
+    {"name":"01 Клиенты","role":"business","key":"ИНН + Ключ"},
+    {"name":"02 Контакты","role":"business","key":"record identity"},
+    {"name":"03 Потребности","role":"business","key":"record identity"},
+    {"name":"04 Заказы","role":"business","key":"Ключ"},
+    {"name":"05 Задачи","role":"business","key":"record identity"},
+    {"name":"90 Аудит","role":"technical","key":"Событие + Создано"},
+    {"name":"91 Безопасность","role":"technical","key":"Проверка"},
+    {"name":"92 Конфигурация","role":"technical","key":"Ключ"},
+    {"name":"93 Миграции","role":"technical","key":"Migration ID"}
+  ],
+  "relations": [
+    "01 Клиенты -> 02 Контакты",
+    "01 Клиенты -> 03 Потребности",
+    "01 Клиенты -> 04 Заказы",
+    "01 Клиенты -> 05 Задачи",
+    "03 Потребности -> 04 Заказы",
+    "03 Потребности -> 05 Задачи",
+    "04 Заказы -> 05 Задачи"
+  ],
+  "rules": {
+    "stableKeyRequired": true,
+    "innDuplicateCheck": true,
+    "criticalWritesAudited": true,
+    "softDeletePreferred": true,
+    "technicalFieldsHiddenFromOperator": true
+  }
+}
