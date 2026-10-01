@@ -1,34 +1,87 @@
 # Architectural Contract
 
-## Entity
-Every business record has a stable semantic identity, lifecycle state where applicable, validation policy and traceable origin.
+## Canonical data
 
-## Relationship
-Links are explicit. Orphan links are integrity failures. Duplicate relations are not silently tolerated.
+`КОМПАНИЯ` is the canonical organization table.
 
-## State
-Authoritative states are enumerated. Invalid transitions must be rejected or surfaced as validation failures.
+One organization must not exist twice in the canonical table. The primary identity key is INN. Other attributes are evidence/supporting data, not alternate company identities.
 
-## Lead readiness
-A lead is operator-ready only after all mandatory identity, geography, category, phone, source and freshness gates pass. READY is a derived operational state, not a manual approval flag.
+## Projections
 
-## Lead identity
-ИНН is the primary organization identity. Normalized phone, domain and normalized name + geography are secondary duplicate controls.
+The operator lists are filtered projections over the same canonical records:
 
-## Automation
-Automations must be deterministic, bounded and idempotent where re-execution is possible. Cross-table writes require failure/recovery and audit evidence.
+- `КОМПАНИЯ`: all accepted companies;
+- `ОЧЕРЕДЬ`: status = ОЧЕРЕДЬ;
+- `КЛИЕНТ`: status = КЛИЕНТ;
+- `АРХИВ`: status = АРХИВ.
 
-## Source adapters
-External discovery and enrichment sources enter through a normalized source contract. Source-specific formats or failures must not redefine the canonical lead model.
+No projection creates or copies a company record.
 
-## Operator boundary
-Technical queues, verification states, source diagnostics and quarantine records are outside the primary operator surface. Operator actions are limited to business processing of READY leads.
+## Work status
 
-## AI
-AI output is advisory unless an explicit contract makes it authoritative. No security, legal, financial or destructive action may rely solely on unverified AI output.
+The only operator status values are:
 
-## Migration
-Each schema/data migration records preflight, transformation, postflight reconciliation, recovery path and test evidence.
+- ОЧЕРЕДЬ;
+- КЛИЕНТ;
+- ПЕРЕЗВОНИТЬ;
+- АРХИВ.
+
+Color semantics:
+green = ОЧЕРЕДЬ;
+blue = КЛИЕНТ;
+yellow = ПЕРЕЗВОНИТЬ;
+red = АРХИВ.
+
+## Queue
+
+ОЧЕРЕДЬ is sorted by priority, then rating, then freshness.
+
+The queue contains only companies already suitable for contact. There is no user-facing candidate, verification, quarantine or waiting-for-phone state.
+
+## Data quality
+
+A company may enter КОМПАНИЯ only when identity is established, INN is confirmed, a working general phone is available, the sphere is assigned, and a useful need/relevance statement exists.
+
+A website/address may be retained as supplementary data when known but is not required in list columns.
+
+Budget estimation is not part of the canonical model.
+
+## Contacts
+
+`ИСТОРИЯ КОНТАКТОВ` is a child table linked to КОМПАНИЯ. It contains the contact date, outcome and note.
+
+The company stores the concise current/latest comment shown in OЧЕРЕДЬ and the first/last contact dates needed for operation.
+
+## Orders
+
+`ЗАКАЗЫ` is a canonical child table linked to КОМПАНИЯ.
+
+Repeat orders are ordinary order records with a repeat flag/relationship, not duplicated customer records.
+
+## Source registry
+
+`ИСТОЧНИКИ` is reference data. It does not become a queue or raw-lead table.
+
+## Spheres and scripts
+
+`СФЕРЫ` is the hierarchical search taxonomy.
+`СКРИПТЫ` is the reusable contact-script library.
+Neither table duplicates company data.
+
+## Operator UX
+
+The first-level interface contains only the five lists.
+
+Opening a company from any list opens one shared record detail view with the complete available company context, linked history and orders.
+
+Status actions update the canonical company record. The projections then change automatically because they are filtered views of the same record.
+
+Airtable supports record-detail actions, linked-record drill-down and mobile list/record-detail interfaces; update-record buttons can change status without an automation. citeturn108379search0turn990997search2turn108379search1
+
+## Automation policy
+
+Automation is not part of the required architecture. It may be introduced only after a measured operational need is demonstrated and after the design is revised.
 
 ## Change control
-Any change to lead discovery, validation, deduplication or ready-state logic requires end-to-end regression against representative lead data before Airtable publication.
+
+Any change to canonical fields, status semantics, projection filters or relationship topology requires representative-data regression before Airtable publication.
