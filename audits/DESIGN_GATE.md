@@ -2,56 +2,40 @@
 
 ## Current status
 
-**DESIGN CORRECTED AND AIRTABLE IMPLEMENTATION BUILT; FINAL RELEASE AUDIT IN PROGRESS**
+**ACCEPTANCE CANDIDATE**
 
-## Passed design checks
+The design was re-audited, corrected, implemented in Airtable and integrated-tested.
 
-- [x] Five operator areas are defined.
-- [x] КОМПАНИЯ is the canonical company dataset.
-- [x] Projections never duplicate companies.
-- [x] INN is the canonical duplicate key.
-- [x] Operational records require usable phone and confirmed identity.
-- [x] Need semantics are separated into Почему / Зачем / Потребность / Основание потребности.
-- [x] Multi-source phone enrichment is mandatory before rejection.
-- [x] Source precedence is explicit.
-- [x] LPR role inference is explicitly separated from known person identity.
-- [x] Sphere × need × source × scenario search matrix is defined.
-- [x] No arbitrary lead batch cap exists.
-- [x] Airtable operator pages use a hard quality gate.
-- [x] Source registry contains 90 records.
-- [x] Sphere hierarchy contains 39 records.
-- [x] Script library contains 24 scenarios.
-- [x] External 1000-opportunity / 500-ready acceptance benchmark is fixed.
+## Passed
 
-## Airtable implementation status
+- [x] five operator areas;
+- [x] canonical company identity by normalized INN;
+- [x] projection model without company duplication;
+- [x] hard quality gate;
+- [x] multi-source phone waterfall contract;
+- [x] explicit need evidence semantics;
+- [x] LPR inference boundary;
+- [x] sphere × need × source × scenario acquisition matrix;
+- [x] deterministic source precedence;
+- [x] no arbitrary acquisition batch cap;
+- [x] 90 source records;
+- [x] 39 sphere records;
+- [x] 24 script records;
+- [x] sphere hierarchy relationships;
+- [x] primary script relationships;
+- [x] integrated relationship tests;
+- [x] cleanup and final Airtable reconciliation;
+- [x] legacy technical evidence archived.
 
-Built target tables:
-- КОМПАНИЯ;
-- ИСТОРИЯ КОНТАКТОВ;
-- ЗАКАЗЫ;
-- ИСТОЧНИКИ;
-- СФЕРЫ;
-- СКРИПТЫ.
+## Final external gate
 
-Built B2B interface:
-- КОМПАНИЯ;
-- ОЧЕРЕДЬ;
-- КЛИЕНТ;
-- ЗАКАЗ;
-- АРХИВ.
+The user will run the Moscow-wide 1000-opportunity search.
+Acceptance requires:
+- >=500 unique READY LEADS;
+- phone present in every ready record;
+- concrete need present in every ready record;
+- confirmed identity/INN;
+- sphere and cause/effect semantics intact;
+- no chaotic or semantically disconnected output.
 
-## Still required before release
-
-1. verify and complete sphere-parent links and primary-script links;
-2. insert controlled test records;
-3. run all integrated tests;
-4. delete test data and verify clean state;
-5. remove legacy interface/tables after count preflight;
-6. reconcile final Airtable schema against GitHub TARGET_SCHEMA;
-7. update implementation/release evidence;
-8. merge design branch to main only after final checks.
-
-## External acceptance
-
-The user will run the 1000-opportunity Moscow test.
-Release remains compatible with that test only if the ready set contains >=500 unique companies and no mandatory-field failures.
+This is the only remaining release gate.
