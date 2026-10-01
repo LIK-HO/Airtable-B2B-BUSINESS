@@ -26,7 +26,7 @@
 ## Acceptance benchmark
 
 For the operator's Moscow-wide sphere request:
-- input = 1000 search opportunities;
+- input = 1000 potential results;
 - required = at least 500 unique READY LEADS;
 - every ready lead must contain the mandatory core facts and causal semantics;
 - zero tolerance for presenting missing-phone / missing-need / unverified-identity records as ready.
