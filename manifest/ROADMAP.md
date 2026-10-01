@@ -27,7 +27,7 @@ Populate source registry, sphere hierarchy and script library; connect scripts t
 Representative data-set test, lead-acquisition gate tests, duplicate tests, projection integrity, status transitions, history, orders, mobile behavior and clean-state verification.
 
 ## Phase 8 — External Acceptance
-Run the Moscow-wide 1000-opportunity test across the sphere hierarchy. Pass condition: >=500 unique READY LEADS and zero mandatory-field failures in the ready set.
+Run the Moscow-wide 1000-result test across the sphere hierarchy. Pass condition: >=500 unique READY LEADS and zero mandatory-field failures in the ready set.
 
 ## Phase 9 — Release
 Documentation, acceptance record, versioning and release audit.
