@@ -168,7 +168,7 @@ Rating is a quality gate, not a promise of conversion.
 
 There is no artificial cap of 10, 20 or 30 records.
 
-For a target of 1000 search opportunities, the workflow proceeds through the configured sphere hierarchy, need scenarios and source classes until:
+For a target of 1000 potential results, the workflow proceeds through the configured sphere hierarchy, need scenarios and source classes until:
 
 - the requested quantity of READY LEADS is reached; or
 - the configured source/scenario space is exhausted.
@@ -200,9 +200,9 @@ Secrets, API keys, session tokens and credentials never enter Airtable records o
 
 The project-level external acceptance test is:
 
-1000 search opportunities across the Moscow sphere hierarchy → at least 500 unique READY LEADS.
+1000 potential results across the Moscow sphere hierarchy → at least 500 unique READY LEADS.
 
-The denominator is the 1000 search opportunities requested by the operator.
+The denominator is the 1000 potential results requested by the operator.
 The numerator counts only unique records that pass the complete READY LEAD gate.
 
 The test fails if:
