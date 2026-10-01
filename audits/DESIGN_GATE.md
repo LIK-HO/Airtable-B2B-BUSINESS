@@ -1,52 +1,57 @@
-# Design Gate — B2B BUSINESS
+# Design / Integration Gate — B2B BUSINESS
 
-## Status
+## Current status
 
-**DESIGN READY FOR USER ACCEPTANCE — Airtable implementation NOT STARTED**
+**DESIGN CORRECTED AND AIRTABLE IMPLEMENTATION BUILT; FINAL RELEASE AUDIT IN PROGRESS**
 
 ## Passed design checks
 
-- [x] Five top-level work lists are defined.
-- [x] КОМПАНИЯ is the single canonical company dataset.
-- [x] КЛИЕНТ, ОЧЕРЕДЬ and АРХИВ are projections, not copies.
-- [x] ПЕРЕЗВОНИТЬ is explicitly retained in ОЧЕРЕДЬ until resolved.
-- [x] ИНН is the primary duplicate key.
-- [x] Company records require confirmed identity and a usable general phone for the operational pool.
-- [x] Address and website are optional detail data.
-- [x] Budget estimation is excluded.
-- [x] Contact history and orders are modeled as child records.
-- [x] Repeat orders do not duplicate companies.
-- [x] Sources, spheres and scripts are reference tables.
-- [x] No mandatory automation is in the target architecture.
-- [x] No mandatory AI is in the target architecture.
-- [x] Mobile-first field order is defined.
-- [x] Status actions are defined.
-- [x] Source registry contains 90 entries.
-- [x] Sphere hierarchy is defined.
-- [x] Script library is defined.
-- [x] Representative-data regression requirements are defined.
+- [x] Five operator areas are defined.
+- [x] КОМПАНИЯ is the canonical company dataset.
+- [x] Projections never duplicate companies.
+- [x] INN is the canonical duplicate key.
+- [x] Operational records require usable phone and confirmed identity.
+- [x] Need semantics are separated into Почему / Зачем / Потребность / Основание потребности.
+- [x] Multi-source phone enrichment is mandatory before rejection.
+- [x] Source precedence is explicit.
+- [x] LPR role inference is explicitly separated from known person identity.
+- [x] Sphere × need × source × scenario search matrix is defined.
+- [x] No arbitrary lead batch cap exists.
+- [x] Airtable operator pages use a hard quality gate.
+- [x] Source registry contains 90 records.
+- [x] Sphere hierarchy contains 39 records.
+- [x] Script library contains 24 scenarios.
+- [x] External 1000-opportunity / 500-ready acceptance benchmark is fixed.
 
-## Required before Airtable publication
+## Airtable implementation status
 
-1. Reconcile the current empty live base against TARGET_SCHEMA.
-2. Remove/rename old technical table and interface names only after schema preflight.
-3. Build exactly the target tables and relationships.
-4. Build the five interface pages.
-5. Configure record-detail status buttons.
-6. Load reference data.
-7. Insert a controlled representative test dataset.
-8. Run full projection, identity, status, history, orders and mobile tests.
-9. Remove test data and verify clean state.
-10. Record final acceptance and release evidence.
+Built target tables:
+- КОМПАНИЯ;
+- ИСТОРИЯ КОНТАКТОВ;
+- ЗАКАЗЫ;
+- ИСТОЧНИКИ;
+- СФЕРЫ;
+- СКРИПТЫ.
 
-## Explicit non-goals
+Built B2B interface:
+- КОМПАНИЯ;
+- ОЧЕРЕДЬ;
+- КЛИЕНТ;
+- ЗАКАЗ;
+- АРХИВ.
 
-No automatic lead factory, no background enrichment, no AI qualification, no lead pools, no candidate quarantine visible to the operator.
+## Still required before release
 
-## Acceptance question
+1. verify and complete sphere-parent links and primary-script links;
+2. insert controlled test records;
+3. run all integrated tests;
+4. delete test data and verify clean state;
+5. remove legacy interface/tables after count preflight;
+6. reconcile final Airtable schema against GitHub TARGET_SCHEMA;
+7. update implementation/release evidence;
+8. merge design branch to main only after final checks.
 
-The design is accepted only when the operator can open Airtable and work from:
+## External acceptance
 
-**КОМПАНИЯ → ОЧЕРЕДЬ → КЛИЕНТ → ЗАКАЗ → АРХИВ**
-
-without maintaining a parallel technical workflow.
+The user will run the 1000-opportunity Moscow test.
+Release remains compatible with that test only if the ready set contains >=500 unique companies and no mandatory-field failures.
