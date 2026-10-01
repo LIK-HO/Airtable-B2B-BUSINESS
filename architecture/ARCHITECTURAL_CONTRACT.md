@@ -1,87 +1,85 @@
-# Architectural Contract
+# Architectural Contract — B2B BUSINESS
 
-## Canonical data
+## 1. Canonical entities
 
-`КОМПАНИЯ` is the canonical organization table.
+КОМПАНИЯ is the single canonical organization table.
+ИСТОРИЯ КОНТАКТОВ stores contact events.
+ЗАКАЗЫ stores orders.
+ИСТОЧНИКИ, СФЕРЫ and СКРИПТЫ are reference libraries.
 
-One organization must not exist twice in the canonical table. The primary identity key is INN. Other attributes are evidence/supporting data, not alternate company identities.
+## 2. Identity
 
-## Projections
+One normalized INN identifies one organization in КОМПАНИЯ.
+No interface projection may create a second company record.
 
-The operator lists are filtered projections over the same canonical records:
+## 3. Projections
 
-- `КОМПАНИЯ`: all accepted companies;
-- `ОЧЕРЕДЬ`: status = ОЧЕРЕДЬ;
-- `КЛИЕНТ`: status = КЛИЕНТ;
-- `АРХИВ`: status = АРХИВ.
+КОМПАНИЯ = all operational company records.
+ОЧЕРЕДЬ = Status IN {ОЧЕРЕДЬ, ПЕРЕЗВОНИТЬ}.
+КЛИЕНТ = Status = КЛИЕНТ.
+АРХИВ = Status = АРХИВ.
 
-No projection creates or copies a company record.
+These are views/interface projections, not data tables.
 
-## Work status
+## 4. Status contract
 
-The only operator status values are:
+Only four operator statuses exist:
 
-- ОЧЕРЕДЬ;
-- КЛИЕНТ;
-- ПЕРЕЗВОНИТЬ;
-- АРХИВ.
+- ОЧЕРЕДЬ — green;
+- КЛИЕНТ — blue;
+- ПЕРЕЗВОНИТЬ — yellow;
+- АРХИВ — red.
 
-Color semantics:
-green = ОЧЕРЕДЬ;
-blue = КЛИЕНТ;
-yellow = ПЕРЕЗВОНИТЬ;
-red = АРХИВ.
+ПЕРЕЗВОНИТЬ remains in the ОЧЕРЕДЬ page until a final outcome.
 
-## Queue
+## 5. Operational entry criteria
 
-ОЧЕРЕДЬ is sorted by priority, then rating, then freshness.
+Only an operationally usable company enters КОМПАНИЯ:
 
-The queue contains only companies already suitable for contact. There is no user-facing candidate, verification, quarantine or waiting-for-phone state.
+- confirmed INN;
+- usable general phone;
+- relevant sphere;
+- useful need or strong documented need signal;
+- reason for relevance;
+- expected decision-maker role;
+- source evidence;
+- rating 3–5.
 
-## Data quality
+Unusable and unverified records are not stored as user-facing lead states.
 
-A company may enter КОМПАНИЯ only when identity is established, INN is confirmed, a working general phone is available, the sphere is assigned, and a useful need/relevance statement exists.
+## 6. Data relationships
 
-A website/address may be retained as supplementary data when known but is not required in list columns.
+КОМПАНИЯ 1:N ИСТОРИЯ КОНТАКТОВ.
+КОМПАНИЯ 1:N ЗАКАЗЫ.
+КОМПАНИЯ N:N ИСТОЧНИКИ.
+СФЕРЫ 1:N КОМПАНИЯ.
+СФЕРЫ 1:N СКРИПТЫ.
 
-Budget estimation is not part of the canonical model.
+Order history and contact history never duplicate company identity.
 
-## Contacts
+## 7. Operator boundary
 
-`ИСТОРИЯ КОНТАКТОВ` is a child table linked to КОМПАНИЯ. It contains the contact date, outcome and note.
+Operator sees only the five work areas.
+Technical/reference tables stay outside first-level navigation.
+Address, website, source metadata and technical identifiers remain inside record detail unless directly useful.
 
-The company stores the concise current/latest comment shown in OЧЕРЕДЬ and the first/last contact dates needed for operation.
+## 8. Automation policy
 
-## Orders
+No mandatory automation is part of the target architecture.
+Status changes are implemented through direct record-update actions in the interface.
+Any future automation requires a new design decision, measurable justification, and full regression.
 
-`ЗАКАЗЫ` is a canonical child table linked to КОМПАНИЯ.
+## 9. AI policy
 
-Repeat orders are ordinary order records with a repeat flag/relationship, not duplicated customer records.
+AI is not a required runtime component.
+It may assist the external research workflow, but it does not create authoritative business state by itself.
 
-## Source registry
+## 10. Mobile design
 
-`ИСТОЧНИКИ` is reference data. It does not become a queue or raw-lead table.
+Primary navigation and company work must be usable on the official Airtable mobile client.
+List rows stay compact; record detail carries extended context.
+Current Airtable mobile interfaces support list/record-detail workflows, linked records and update-field buttons. citeturn251792search0turn251792search1turn251792search5
 
-## Spheres and scripts
+## 11. Change control
 
-`СФЕРЫ` is the hierarchical search taxonomy.
-`СКРИПТЫ` is the reusable contact-script library.
-Neither table duplicates company data.
-
-## Operator UX
-
-The first-level interface contains only the five lists.
-
-Opening a company from any list opens one shared record detail view with the complete available company context, linked history and orders.
-
-Status actions update the canonical company record. The projections then change automatically because they are filtered views of the same record.
-
-Airtable supports record-detail actions, linked-record drill-down and mobile list/record-detail interfaces; update-record buttons can change status without an automation. citeturn108379search0turn990997search2turn108379search1
-
-## Automation policy
-
-Automation is not part of the required architecture. It may be introduced only after a measured operational need is demonstrated and after the design is revised.
-
-## Change control
-
-Any change to canonical fields, status semantics, projection filters or relationship topology requires representative-data regression before Airtable publication.
+Any change to identity, status, projection filters, relationships or required operator fields requires representative-data regression before Airtable publication.
