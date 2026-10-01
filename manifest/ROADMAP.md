@@ -12,21 +12,24 @@ Compact canonical tables: КОМПАНИЯ, ИСТОРИЯ КОНТАКТОВ, �
 ## Phase 3 — Security & Data Safety
 Permissions, technical-field isolation, duplicate-by-INN checks, orphan checks, recovery/export contract.
 
-## Phase 4 — Operator Layer
+## Phase 4 — Lead Acquisition
+Lead Acquisition Contract, source hierarchy, need-signal search matrix, phone waterfall, identity/status verification, LPR-role rule, evidence precedence, deterministic scoring and hard READY LEAD gate.
+
+## Phase 5 — Operator Layer
 Five mobile-first projections:
 КОМПАНИЯ → ОЧЕРЕДЬ → КЛИЕНТ → ЗАКАЗ → АРХИВ.
-Shared record detail for all projections, status actions, linked history and linked orders.
+Shared record detail, status changes, linked history and linked orders.
 
-## Phase 5 — Source Intelligence
-Populate and structure the source registry (government, maps, jobs, tenders, commercial databases, industry sources) and the sphere/script libraries.
+## Phase 6 — Source & Reference Layer
+Populate source registry, sphere hierarchy and script library; connect scripts to spheres where a primary scenario exists.
 
-## Phase 6 — Validation
-Representative data-set test, projection integrity, status transition tests, duplicate tests, mobile UX checks, data-safety/security review.
+## Phase 7 — Integrated Validation
+Representative data-set test, lead-acquisition gate tests, duplicate tests, projection integrity, status transitions, history, orders, mobile behavior and clean-state verification.
 
-## Phase 7 — Release
+## Phase 8 — External Acceptance
+Run the Moscow-wide 1000-opportunity test across the sphere hierarchy. Pass condition: >=500 unique READY LEADS and zero mandatory-field failures in the ready set.
+
+## Phase 9 — Release
 Documentation, acceptance record, versioning and release audit.
 
-### Current design branch
-The five-list operating model, source registry, sphere matrix and script library are design artifacts only on branch `design/lead-factory`.
-
-Airtable implementation must not begin until the design is accepted and the live base has been reconciled against it.
+The design branch is not considered release-complete until the integrated and external gates pass.
