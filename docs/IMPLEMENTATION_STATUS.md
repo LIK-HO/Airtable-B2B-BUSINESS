@@ -1,31 +1,41 @@
-# Implementation Status — design/lead-factory
+# Implementation Status — B2B BUSINESS
 
-## GitHub design
+## GitHub
 
-Implemented on this design branch:
-
-- compact five-list operator model;
-- canonical КОМПАНИЯ table concept;
-- projection model for КОМПАНИЯ / ОЧЕРЕДЬ / КЛИЕНТ / АРХИВ;
-- ЗАКАЗ as canonical child table;
-- ИСТОРИЯ КОНТАКТОВ;
-- hierarchical source registry with more than 50 sources;
-- hierarchical sphere matrix;
-- structured script library;
-- mobile-first record-detail/status-button model;
-- no mandatory automation or AI architecture.
+Design branch contains:
+- canonical six-table model;
+- five-list operator model;
+- source registry;
+- sphere hierarchy;
+- script library;
+- Lead Acquisition Contract;
+- lead acquisition audit;
+- lead acquisition tests;
+- target schema and migration contract.
 
 ## Airtable
 
-The live Airtable base has not been modified by this design change.
+Target runtime has been built in the live B2B - BUSINESS base:
 
-Current live-base schema/interface drift remains intentionally unresolved until the design is accepted. Existing live records are empty in the current КОМПАНИЯ and 00 Входящие tables.
+- 6 target tables;
+- 90 source records;
+- 39 sphere records;
+- 24 scripts;
+- one published B2B interface;
+- five operator pages;
+- company and order detail pages;
+- hard quality gate for operator projections.
 
-## Before implementation
+## Current validation state
 
-1. Approve the design branch model.
-2. Map target model to live Airtable schema.
-3. Reconcile only necessary schema/interface drift.
-4. Implement in Airtable.
-5. Run representative-data, projection, status, relationship, mobile, security and data-safety tests.
-6. Complete acceptance and release audit.
+Not release-final yet.
+
+Outstanding:
+- complete hierarchy link verification;
+- controlled integration tests;
+- clean-state verification;
+- legacy table/interface removal;
+- final GitHub/Airtable reconciliation;
+- release audit.
+
+No claim of final production readiness is made until these checks pass.
