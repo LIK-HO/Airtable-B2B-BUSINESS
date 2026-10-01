@@ -1,11 +1,18 @@
-# Core Rules
+# Core Rules — B2B BUSINESS
 
-- R-001: Required identity data must exist before operational use.
-- R-002: State transitions require declared preconditions.
-- R-003: Accepted canonical identifiers are immutable unless a controlled correction exists.
-- R-004: Technical/internal fields stay off the operator surface unless operationally necessary.
-- R-005: Authoritative business data is archived rather than hard-deleted where semantics permit.
-- R-006: Duplicate prevention is a data-integrity function.
-- R-007: Multi-table automations require bounded failure and audit paths.
-- R-008: Airtable display names never become business keys.
-- R-009: Secrets never enter records, repository files or interface text.
+- R-001: A company cannot enter the operational dataset without a confirmed INN and a usable general business phone.
+- R-002: One normalized INN identifies one canonical КОМПАНИЯ record.
+- R-003: КЛИЕНТ, ОЧЕРЕДЬ and АРХИВ are projections of КОМПАНИЯ, never copied records.
+- R-004: ПЕРЕЗВОНИТЬ remains in the ОЧЕРЕДЬ projection until resolved.
+- R-005: Status transitions are limited to ОЧЕРЕДЬ, КЛИЕНТ, ПЕРЕЗВОНИТЬ and АРХИВ.
+- R-006: Technical/reference data stays outside the top-level operator navigation.
+- R-007: Company identity is not duplicated in contact history or orders.
+- R-008: First/last contact dates are derived from contact history; the full history remains the canonical event log.
+- R-009: A repeat order is another ЗАКАЗ linked to the same company, never another company record.
+- R-010: Address and website are optional supporting data and are hidden from compact work lists.
+- R-011: Budget estimation is not part of the canonical lead model.
+- R-012: Rating 1–2 is not valid for the operational company pool; operational companies are rated 3–5.
+- R-013: The assistant/search workflow must check INN against the existing КОМПАНИЯ dataset before creating a new company record.
+- R-014: No mandatory Airtable automation or AI component may be introduced without a demonstrated operational need.
+- R-015: Airtable field names and display names are never treated as immutable business identifiers.
+- R-016: Secrets never enter Airtable records, interface text or repository files.
