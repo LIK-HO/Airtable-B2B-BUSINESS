@@ -1,65 +1,94 @@
 # Test Plan
 
-## 1. Canonical data
+## 1. Lead acquisition hard gates
 
-- Same INN cannot create a second company record.
-- Company with unconfirmed identity cannot enter КОМПАНИЯ.
-- Company without usable general phone cannot enter the main work dataset.
-- Source, sphere and script links remain valid.
+Reject:
+- missing confirmed INN;
+- missing usable phone;
+- unresolved/inactive organization;
+- missing sphere;
+- missing concrete need/strong need signal;
+- missing Почему;
+- missing Зачем;
+- missing Основание потребности;
+- missing LPR role;
+- rating below 3.
 
-## 2. Projection integrity
+## 2. Identity and deduplication
 
-For one canonical company record:
+- Same normalized INN cannot create a second company.
+- Multi-source discovery of one organization results in one canonical record.
+- Existing INN is enriched rather than duplicated.
 
-- status ОЧЕРЕДЬ => visible only in the Очередь projection among the four status projections;
-- status КЛИЕНТ => visible in КЛИЕНТ;
-- status ПЕРЕЗВОНИТЬ => remains outside КЛИЕНТ/АРХИВ and remains available to follow-up workflow;
-- status АРХИВ => visible in АРХИВ.
+## 3. Phone waterfall
 
-No status change may create a second company record.
+- Missing phone in source A triggers source B/C enrichment.
+- No phone anywhere means not READY and not visible in operator pages.
 
-## 3. Status actions
+## 4. Need semantics
 
-Test each status button:
+- sector-only ≠ current need;
+- weak inference ≠ confirmed need;
+- strong activity signal may qualify;
+- direct current need qualifies.
 
-- writes the intended status;
-- does not alter unrelated business data;
-- moves the record to the correct projection;
-- works from record detail on the target mobile app.
+## 5. Projection integrity
 
-## 4. Contact history
+For one canonical company:
+- ОЧЕРЕДЬ => visible in КОМПАНИЯ and ОЧЕРЕДЬ;
+- ПЕРЕЗВОНИТЬ => visible in КОМПАНИЯ and ОЧЕРЕДЬ;
+- КЛИЕНТ => visible in КОМПАНИЯ and КЛИЕНТ;
+- АРХИВ => visible in КОМПАНИЯ and АРХИВ.
 
-- First contact is stored;
-- last contact is updated;
-- latest comment shown in queue corresponds to the current company record;
-- historical contact records remain linked to the same company.
+No status transition creates a second company.
 
-## 5. Orders
+## 6. Contact history
 
-- Order links to exactly one company record;
-- multiple orders can belong to one company;
-- repeat orders do not duplicate the company;
-- company card exposes related orders.
+- first contact and last contact are derived;
+- current summary is visible on the company card;
+- all historical events remain attached.
 
-## 6. Mobile UX
+## 7. Orders
 
-Verify Android and iOS interface behavior for:
+- multiple orders can point to one company;
+- repeat order does not create a company duplicate;
+- company card exposes linked orders.
 
-- list opening;
+## 8. Reference integrity
+
+- every sphere leaf has a valid hierarchy parent where applicable;
+- primary scripts link to their relevant sphere;
+- source registry records remain accessible;
+- no broken links after clean-up.
+
+## 9. Mobile UX
+
+Verify:
+- opening each of the five pages;
 - company drill-down;
-- status update buttons;
-- linked records;
-- compact field layout;
-- navigation between the five top-level lists.
+- status edits;
+- linked history/orders;
+- compact first screen;
+- order-to-company navigation.
 
-Airtable documents mobile support for lists and record details, including update-field buttons and linked-record actions, with some desktop/mobile differences that must be tested explicitly. citeturn108379search1turn108379search4
+## 10. Clean-state verification
 
-## 7. Regression
+After all tests:
+- test company count = 0;
+- test history count = 0;
+- test order count = 0;
+- reference counts remain intact;
+- no test artifacts remain.
 
-After each schema/interface change rerun:
+## 11. External acceptance benchmark
 
-canonical identity → projection mapping → status buttons → contact history → orders → mobile navigation.
+1000 Moscow search opportunities across the complete sphere hierarchy:
+- unique READY LEADS >= 500;
+- every ready record has phone, INN, sphere, concrete need, reason/evidence and logical operator context;
+- no systematic chaotic output;
+- any systematic violation fails acceptance.
 
-## 8. Release gate
+## 12. Regression rule
 
-No release until representative-data tests, security/data-safety review and final acceptance evidence are recorded.
+After each schema, interface or acquisition change rerun:
+identity → phone → need → dedup → quality gate → projections → history → orders → clean-state.
