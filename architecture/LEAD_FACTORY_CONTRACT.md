@@ -144,3 +144,19 @@ Airtable не должен быть интерфейсом для управле
 - перед любым destructive schema change обязательны preflight, backup/export, postflight reconciliation и recovery evidence.
 
 После синхронизации только с approved contract выполняется реализация в Airtable, затем полный end-to-end прогон поиска → проверки → READY → операторской обработки.
+
+## 19. Hard rule: no user-visible garbage
+
+`CANDIDATE`, `VERIFYING`, `QUARANTINE`, `REJECTED`, missing INN, unverified phone and other incomplete states are strictly technical states. They must never appear in the operator's lead list, count toward the available lead stock, or require operator confirmation.
+
+For a Russian legal entity or individual entrepreneur, absence of a verified INN is a verification failure, not a legitimate operator state. The system must resolve identity through authoritative sources before the record can become a lead shown to the operator. FNS provides organization search by INN/OGRN/name and filters by activity and region. citeturn469667search0turn469667search8
+
+For phone data, the rule is operational rather than registry-based: a record without a usable, source-attributed phone is not a lead for the working list. It is discarded or retained only in a hidden technical failure log. There is no user-facing "ожидает телефон" queue.
+
+## 20. Benchmark of usefulness
+
+The system must be materially more useful than manual browser search. A manual operator can search for a small number of companies by category and parameters; Airtable exists to automate the repetitive work at scale.
+
+Therefore the acceptance target is not "10 leads found". The system must maintain a substantial stock of READY leads and replenish it automatically, while preserving the hard quality gates. A larger stock is valuable only when the leads remain contactable, unique, category-relevant and verified.
+
+The operator should never spend time converting technical records into usable leads. That conversion is the product's job.
