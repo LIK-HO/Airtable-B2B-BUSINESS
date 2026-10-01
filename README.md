@@ -1,38 +1,32 @@
 # Airtable-B2B-BUSINESS
 
-Компактный инженерный эталон B2B-системы в среде Airtable.
+Компактная B2B-система в Airtable с пятисписочным операторским интерфейсом.
 
-## Архитектурная идея
+## Рабочая поверхность
 
-`Core -> Contracts -> Airtable Adapter -> Airtable Runtime`
+**КОМПАНИЯ | ОЧЕРЕДЬ | КЛИЕНТ | ЗАКАЗ | АРХИВ**
 
-Airtable — runtime/data layer. Бизнес-смысл, инварианты, состояния, безопасность и тестовые оракулы не зависят от UI Airtable.
+КОМПАНИЯ — канонический реестр проверенных компаний.
+ОЧЕРЕДЬ — приоритетная проекция компаний, которые нужно обработать.
+КЛИЕНТ — проекция договорившихся компаний.
+ЗАКАЗ — заказы и повторные заказы компаний.
+АРХИВ — проекция исключённых из рабочей очереди.
 
-## Scope
+Технические источники, сферы, скрипты и история контактов существуют за пределами первого уровня интерфейса.
 
-Включено:
-- platform-neutral core и контракты;
-- B2B-сущности: клиенты, контакты, потребности, заказы, задачи;
-- security, data-safety, audit, migration/recovery;
-- Airtable schema, operator interface и deterministic automations;
-- интеграционный/API boundary;
-- unit, integration, regression, security и data-safety проверки.
+## Design principle
 
-Исключено:
-- WEB/PWA;
-- Yandex Cloud;
-- Bitrix24;
-- MAX;
-- AL;
-- инфраструктура, не обязательная для Airtable runtime.
+Airtable хранит чистый рабочий результат и отношения между сущностями. Поиск выполняется по структурированному справочнику источников и вручную/операторски, без обязательной автоматизации или AI-контуров.
 
-## Deployed target
+## Target data model
 
-- Workspace: `B2B - BUSINESS`
-- Base: `B2B - BUSINESS`
-- GitHub: `LIK-HO/Airtable-B2B-BUSINESS`
-- Baseline: `0.1.0`
+- КОМПАНИЯ
+- ИСТОРИЯ КОНТАКТОВ
+- ЗАКАЗЫ
+- ИСТОЧНИКИ
+- СФЕРЫ
+- СКРИПТЫ
 
 ## Definition of Done
 
-Манифест -> дорожная карта -> архитектурный контракт -> модель данных -> реализация -> тесты этапа -> интеграционные/регрессионные проверки -> security/data-safety audit -> migration/recovery check -> финальная приёмка -> документация -> release audit.
+Манифест → дорожная карта → архитектурный контракт → модель данных → GitHub design → утверждение → Airtable implementation → stage tests → integration/regression → security/data-safety → final acceptance → documentation → release audit.
