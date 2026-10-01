@@ -26,7 +26,7 @@ There are no separate tables for КЛИЕНТ, ОЧЕРЕДЬ or АРХИВ.
 ### Operator data
 
 - **Телефон** — primary general business phone.
-- **Потребность** — concrete confirmed or well-evidenced service need.
+- **Потребность** — concrete service/work need supported by direct evidence or a strong documented signal.
 - **Почему** — concise evidence for why the company is relevant.
 - **Зачем** — the business task for which the service is needed.
 - **ЛПР / должность** — known or inferred decision-maker role; inference is explicitly marked as an assumption in the detail record.
