@@ -1,10 +1,32 @@
 # Scope Boundary
 
 ## Included
-Core, contracts, B2B data model, security, data safety, audit, migration, Airtable adapter, interfaces, automations and tests.
+
+- compact canonical B2B data model;
+- five operator projections;
+- contact history;
+- orders and repeat orders;
+- source registry;
+- sphere taxonomy;
+- script library;
+- mobile Airtable interface;
+- security and data-safety controls;
+- migration/reconciliation documentation;
+- representative-data tests.
 
 ## Excluded
-WEB/PWA, Yandex Cloud, Bitrix24, MAX, AL and unrelated infrastructure.
+
+- mandatory automations;
+- mandatory AI;
+- separate candidate/verification/quarantine/lead-pool tables;
+- separate client/archive/queue data tables;
+- financial budget estimation model;
+- WEB/PWA;
+- Yandex Cloud;
+- Bitrix24;
+- MAX;
+- unrelated infrastructure.
 
 ## Design intention
-The project is deliberately small. Complexity belongs in contracts and technical controls, not in the operator experience.
+
+The system is deliberately small. Complexity belongs in the data relationships and documentation, not in the operator experience.
