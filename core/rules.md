@@ -12,7 +12,15 @@
 - R-010: Address and website are optional supporting data and are hidden from compact work lists.
 - R-011: Budget estimation is not part of the canonical lead model.
 - R-012: Rating 1–2 is not valid for the operational company pool; operational companies are rated 3–5.
-- R-013: The assistant/search workflow must check INN against the existing КОМПАНИЯ dataset before creating a new company record.
-- R-014: No mandatory Airtable automation or AI component may be introduced without a demonstrated operational need.
-- R-015: Airtable field names and display names are never treated as immutable business identifiers.
-- R-016: Secrets never enter Airtable records, interface text or repository files.
+- R-013: The acquisition workflow must check normalized INN against the existing КОМПАНИЯ dataset before creating or updating a company.
+- R-014: No incomplete company may appear in an operator work projection; the Airtable quality gate must remain true before admission to КОМПАНИЯ / ОЧЕРЕДЬ / КЛИЕНТ / АРХИВ.
+- R-015: READY LEAD requires geography, confirmed identity, usable phone, target sphere, concrete need or strong need signal, evidence for the need, LPR role and rating >= 3.
+- R-016: The fields Почему, Зачем, Потребность and Основание потребности have distinct semantics and must not be conflated.
+- R-017: A phone missing from one source must trigger multi-source enrichment before rejection.
+- R-018: A weak sector fit or weak inference cannot be represented as a confirmed current need.
+- R-019: LPR role inference may be recorded as a role assumption, but an inferred role must never be presented as a confirmed person.
+- R-020: Search coverage is matrix-driven: sphere × need × source × scenario; arbitrary batch caps are prohibited.
+- R-021: One normalized INN = one operational company. Other duplicate signals are secondary evidence only.
+- R-022: Source precedence is deterministic: official identity sources for identity; authoritative company/map sources for phone; direct demand sources over weak profile inference for need.
+- R-023: The 1000-opportunity / 500-ready-lead benchmark is an external acceptance test, not a reason to fabricate or weaken data.
+- R-024: Secrets, API keys and credentials never enter Airtable records, interfaces or repository files.
