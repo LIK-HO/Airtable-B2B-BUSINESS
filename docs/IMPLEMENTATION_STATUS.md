@@ -45,5 +45,5 @@ The quality gate is enforced at the operator projection level.
 
 **ACCEPTANCE_PENDING**
 
-The only remaining project-level gate is the external Moscow 1000-opportunity search:
+The only remaining project-level gate is the external Moscow 1000-result search:
 >=500 unique READY LEADS and zero mandatory-field failures.
