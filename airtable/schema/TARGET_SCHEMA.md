@@ -12,19 +12,22 @@
 | Потребность | Single line text | yes | concrete service need |
 | Почему | Long text | detail | reason for relevance |
 | Зачем | Long text | detail | business task |
-| ЛПР / должность | Single line text | yes | decision-maker role |
+| ЛПР / должность | Single line text | yes | decision-maker role; can be marked as inferred |
 | Сфера | Link → СФЕРЫ | yes | primary category |
 | Скрипт | Link → СКРИПТЫ | detail | primary scenario |
 | Рейтинг | Rating 1–5 | yes | lead quality |
 | Приоритет | Single select | yes | action order |
 | Статус | Single select | detail | four work states |
 | Дата внесения | Created time | yes | added date |
+| Первое обращение | Rollup | detail | derived from history |
+| Последнее обращение | Rollup | detail | derived from history |
 | Следующий контакт | Date/time | detail | callback date |
 | Последний комментарий | Long text | detail/queue | current operator summary |
 | Доп. телефоны | Long text | detail | secondary numbers |
 | Адрес | Single line text | detail only | optional supporting data |
 | Сайт | URL | detail only | optional supporting data |
 | Источники | Link → ИСТОЧНИКИ | detail | provenance |
+| Основание потребности | Long text | detail | evidence for the stated need |
 | История контактов | Link → ИСТОРИЯ КОНТАКТОВ | detail | contact history |
 | Заказы | Link → ЗАКАЗЫ | detail | orders |
 
