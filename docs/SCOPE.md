@@ -7,26 +7,29 @@
 - contact history;
 - orders and repeat orders;
 - source registry;
-- sphere taxonomy;
+- hierarchical sphere taxonomy;
 - script library;
+- external Lead Acquisition Contract;
 - mobile Airtable interface;
+- hard quality gate for operator projections;
 - security and data-safety controls;
 - migration/reconciliation documentation;
-- representative-data tests.
+- representative-data tests;
+- external 1000-opportunity acceptance benchmark.
 
 ## Excluded
 
-- mandatory automations;
-- mandatory AI;
-- separate candidate/verification/quarantine/lead-pool tables;
+- visible candidate/verification/quarantine/lead-pool tables;
 - separate client/archive/queue data tables;
 - financial budget estimation model;
 - WEB/PWA;
 - Yandex Cloud;
 - Bitrix24;
 - MAX;
-- unrelated infrastructure.
+- unrelated infrastructure;
+- mandatory background lead automation;
+- mandatory AI qualification runtime.
 
 ## Design intention
 
-The system is deliberately small. Complexity belongs in the data relationships and documentation, not in the operator experience.
+Complexity belongs in the acquisition contract, evidence rules and relationships, not in the operator experience.
