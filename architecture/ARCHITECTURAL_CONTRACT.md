@@ -12,42 +12,39 @@
 One normalized INN identifies one organization in КОМПАНИЯ.
 No interface projection may create a second company record.
 
-## 3. Projections
+## 3. Lead acquisition boundary
 
-КОМПАНИЯ = all operational company records.
-ОЧЕРЕДЬ = Status IN {ОЧЕРЕДЬ, ПЕРЕЗВОНИТЬ}.
-КЛИЕНТ = Status = КЛИЕНТ.
-АРХИВ = Status = АРХИВ.
+External research is governed by LEAD_ACQUISITION_CONTRACT.md.
 
-These are views/interface projections, not data tables.
+The pipeline is deterministic:
 
-## 4. Status contract
+need signal → exact organization → INN/status → phone → sphere → need evidence → LPR role → dedup → rating → READY LEAD → Airtable.
+
+Airtable does not decide that a weak raw hit is ready.
+
+## 4. Projections
+
+КОМПАНИЯ = quality gate true.
+ОЧЕРЕДЬ = quality gate true + Status IN {ОЧЕРЕДЬ, ПЕРЕЗВОНИТЬ}.
+КЛИЕНТ = quality gate true + Status = КЛИЕНТ.
+АРХИВ = quality gate true + Status = АРХИВ.
+
+## 5. Status contract
 
 Only four operator statuses exist:
+- ОЧЕРЕДЬ;
+- КЛИЕНТ;
+- ПЕРЕЗВОНИТЬ;
+- АРХИВ.
 
-- ОЧЕРЕДЬ — green;
-- КЛИЕНТ — blue;
-- ПЕРЕЗВОНИТЬ — yellow;
-- АРХИВ — red.
+ПЕРЕЗВОНИТЬ remains in the ОЧЕРЕДЬ projection until resolved.
 
-ПЕРЕЗВОНИТЬ remains in the ОЧЕРЕДЬ page until a final outcome.
+## 6. Evidence semantics
 
-## 5. Operational entry criteria
+Почему, Зачем, Потребность and Основание потребности are separate fields.
+A generic company profile cannot be transformed into a claimed current need without evidence.
 
-Only an operationally usable company enters КОМПАНИЯ:
-
-- confirmed INN;
-- usable general phone;
-- relevant sphere;
-- useful need or strong documented need signal;
-- reason for relevance;
-- expected decision-maker role;
-- source evidence;
-- rating 3–5.
-
-Unusable and unverified records are not stored as user-facing lead states.
-
-## 6. Data relationships
+## 7. Data relationships
 
 КОМПАНИЯ 1:N ИСТОРИЯ КОНТАКТОВ.
 КОМПАНИЯ 1:N ЗАКАЗЫ.
@@ -55,31 +52,20 @@ Unusable and unverified records are not stored as user-facing lead states.
 СФЕРЫ 1:N КОМПАНИЯ.
 СФЕРЫ 1:N СКРИПТЫ.
 
-Order history and contact history never duplicate company identity.
+## 8. Operator boundary
 
-## 7. Operator boundary
+Operator sees only five work areas.
+Technical/reference data remains outside first-level navigation.
 
-Operator sees only the five work areas.
-Technical/reference tables stay outside first-level navigation.
-Address, website, source metadata and technical identifiers remain inside record detail unless directly useful.
+## 9. Automation / AI policy
 
-## 8. Automation policy
+No mandatory background lead factory and no mandatory AI runtime.
+External AI/web research may produce proposed data, but only data passing the acquisition contract becomes authoritative operational state.
 
-No mandatory automation is part of the target architecture.
-Status changes are implemented through direct record-update actions in the interface.
-Any future automation requires a new design decision, measurable justification, and full regression.
+## 10. Change control
 
-## 9. AI policy
+Any change to identity, quality gate, status, projections or relationship semantics requires representative-data regression and clean-state verification.
 
-AI is not a required runtime component.
-It may assist the external research workflow, but it does not create authoritative business state by itself.
+## 11. Acceptance
 
-## 10. Mobile design
-
-Primary navigation and company work must be usable on the official Airtable mobile client.
-List rows stay compact; record detail carries extended context.
-Current Airtable mobile interfaces support list/record-detail workflows, linked records and update-field buttons. citeturn251792search0turn251792search1turn251792search5
-
-## 11. Change control
-
-Any change to identity, status, projection filters, relationships or required operator fields requires representative-data regression before Airtable publication.
+A project release must support the external benchmark of 1000 search opportunities with >=500 unique READY LEADS and zero mandatory-field failures in the ready set.
