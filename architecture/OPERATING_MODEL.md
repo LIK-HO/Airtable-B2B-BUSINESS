@@ -1,240 +1,189 @@
 # B2B BUSINESS — Operator Model
 
-## 1. Назначение
+## 1. Product shape
 
-B2B BUSINESS — компактная рабочая система Airtable для поиска, обработки и ведения B2B-компаний.
+The operator surface is exactly five areas:
 
-Главное правило:
+**КОМПАНИЯ · ОЧЕРЕДЬ · КЛИЕНТ · ЗАКАЗ · АРХИВ**
 
-**оператор работает с результатом, а не с механизмом его производства.**
+Everything else is supporting/reference data.
 
-В рабочем интерфейсе только пять списков:
+The operator is not expected to maintain a lead-processing machine. Airtable is the clean operational workspace around already prepared company data and its business history.
 
-1. КОМПАНИЯ
-2. ОЧЕРЕДЬ
-3. КЛИЕНТ
-4. ЗАКАЗ
-5. АРХИВ
+## 2. Canonical company record
 
-Никаких пользовательских очередей сырья, подтверждения ИНН, технических статусов, ручного перевода кандидата в готовый лид или обязательного обслуживания служебных таблиц.
+КОМПАНИЯ contains exactly one record per organization.
 
-## 2. Канонические данные
+The identity key is the normalized ИНН.
 
-Основная таблица `КОМПАНИЯ` — единственный канонический реестр компаний.
+The company record contains the compact facts required to decide whether to contact and how to contact:
 
-Все пять рабочих списков являются проекциями канонических данных, а не копиями:
+**Компания · ИНН · Телефон · Потребность · ЛПР/должность · Сфера · Рейтинг · Дата внесения**
 
-- КОМПАНИЯ = все принятые и проверенные компании;
-- ОЧЕРЕДЬ = КОМПАНИЯ со статусом `ОЧЕРЕДЬ`;
-- КЛИЕНТ = КОМПАНИЯ со статусом `КЛИЕНТ`;
-- АРХИВ = КОМПАНИЯ со статусом `АРХИВ`;
-- ЗАКАЗ = отдельный канонический реестр заказов, связанный с КОМПАНИЯ.
+The record detail contains the extended context:
 
-Одна компания = одна запись по ИНН.
+**Почему · Зачем · Скрипт · Приоритет · Статус · Первый/последний контакт · Следующий контакт · Последний комментарий · История · Источники · Заказы · адрес/сайт/доп. телефоны, если известны.**
 
-Проекции не создают новых записей.
+## 3. What enters КОМПАНИЯ
 
-## 3. Что может попасть в КОМПАНИЯ
+Only companies that are already operationally usable:
+- identity confirmed;
+- INN confirmed;
+- active organization status confirmed where relevant;
+- at least one usable general phone;
+- relevant sphere identified;
+- concrete need or strong documented need signal;
+- clear reason for relevance;
+- expected decision-maker role;
+- source evidence retained;
+- rating 3–5.
 
-В КОМПАНИЯ попадает только уже пригодная для работы компания:
+There is no visible pool of unverified companies.
 
-- подтверждённый ИНН;
-- действующий статус по государственному источнику;
-- общий рабочий телефон;
-- подтверждённая или достаточно обоснованная потребность;
-- определённая сфера;
-- понятная причина релевантности;
-- предполагаемая должность ЛПР;
-- рейтинг;
-- дата внесения;
-- источник/источники, из которых собраны данные.
+## 4. Почему / Зачем / Потребность
 
-Компания без подтверждённой идентичности или без рабочего способа связаться не попадает в основной реестр.
+These fields have distinct meanings.
 
-Сырые результаты поиска вообще не являются частью рабочего пользовательского контура.
+**Почему** — why this company belongs in the target segment.
 
-## 4. Рабочие статусы ОЧЕРЕДИ
+**Зачем** — the business task that creates the opportunity.
 
-Единое поле `Статус`:
+**Потребность** — the concrete service/work need that can be discussed.
 
-- **ОЧЕРЕДЬ** — зелёный: новый или ещё не обработанный лид;
-- **КЛИЕНТ** — синий: договорились о работе/стали клиентом;
-- **ПЕРЕЗВОНИТЬ** — жёлтый: контакт состоялся, требуется повторный контакт;
-- **АРХИВ** — красный: не дозвонились, не договорились или дальнейшая работа нецелесообразна.
+Example:
 
-Статус одновременно определяет проекцию записи.
+- Почему: регулярно работает на строительных объектах.
+- Зачем: усилить объектную бригаду на пиковых работах.
+- Потребность: разгрузка и подъём строительных материалов.
 
-Никаких дополнительных пользовательских статусов не добавлять без доказанной необходимости.
+The wording must distinguish verified facts from reasonable inference.
 
-## 5. Поля КОМПАНИЯ
+## 5. Status model
 
-### Видимые в списке
+Exactly four operator statuses:
 
-- Компания
-- ИНН
-- Телефон
-- Потребность
-- ЛПР / предполагаемая должность
-- Сфера
-- Рейтинг
-- Дата внесения
+**ОЧЕРЕДЬ** — not yet processed.
 
-### Есть в карточке, но не обязаны занимать колонку списка
+**КЛИЕНТ** — agreement reached / client relationship established.
 
-- адрес;
-- сайт;
-- дополнительные телефоны;
-- дополнительные контакты;
-- дополнительные потребности;
-- источник;
-- Почему;
-- Зачем;
-- Скрипт;
-- приоритет;
-- статус;
-- первый контакт;
-- последний контакт;
-- последний комментарий;
-- история контактов;
-- связанные заказы.
+**ПЕРЕЗВОНИТЬ** — conversation occurred or callback agreed; next action remains.
 
-Адрес и сайт сохраняются, когда известны, но не используются как обязательные элементы рабочего списка.
+**АРХИВ** — not reached, declined, or otherwise closed for current work.
 
-Бюджет компании не вычисляется и не моделируется как обязательный показатель.
+Color semantics:
 
-## 6. Поля ОЧЕРЕДЬ
+green / blue / yellow / red respectively.
 
-На экране телефона показываются только:
+## 6. Projection logic
 
-- Кто — компания;
-- Почему — почему компания подходит;
-- Зачем — что именно у неё предполагается/подтверждено;
-- Как связаться — основной телефон + ЛПР/должность;
-- Потребность;
-- Скрипт;
-- Рейтинг;
-- Сфера;
-- Приоритет;
-- Статус.
+КОМПАНИЯ shows all company records.
 
-После блока контакта:
+ОЧЕРЕДЬ shows records with status ОЧЕРЕДЬ or ПЕРЕЗВОНИТЬ.
 
-- Первый контакт;
-- Последний контакт;
-- Последний комментарий.
+КЛИЕНТ shows status КЛИЕНТ.
 
-Список сортируется по приоритету, затем по рейтингу, затем по свежести внесения.
+АРХИВ shows status АРХИВ.
 
-## 7. КЛИЕНТ и АРХИВ
+ЗАКАЗ is its own order table.
 
-КЛИЕНТ и АРХИВ — проекции КОМПАНИЯ.
+No projection creates a second company record.
 
-Структура колонок идентична КОМПАНИЯ:
+## 7. Queue behavior
 
-Компания | ИНН | Телефон | Потребность | ЛПР | Сфера | Рейтинг | Дата внесения.
+ОЧЕРЕДЬ is the main work surface.
 
-Это не технические дубли.
+Priority hierarchy:
+1. High priority;
+2. Medium priority;
+3. Low priority.
 
-При открытии компании из любой проекции открывается одна и та же каноническая карточка компании.
+Within priority:
+- rating descending;
+- newest records first for new leads;
+- next-contact date ascending for callbacks.
 
-## 8. ЗАКАЗ
+The queue can be visually grouped into:
 
-ЗАКАЗ — отдельный канонический объект, связанный с компанией.
+**НОВЫЕ** — ОЧЕРЕДЬ
 
-Минимальные поля:
+**ПЕРЕЗВОНИТЬ** — ПЕРЕЗВОНИТЬ
 
-- Компания;
-- Заказ;
-- Вид услуги;
-- Дата;
-- Статус;
-- Повторный / разовый;
-- Сумма, если известна;
-- Следующий заказ / контрольная дата;
-- Комментарий.
+This remains one page, not two tables.
 
-История повторных заказов хранится как связанные записи заказов, а не в отдельной дублирующей таблице клиентов.
+## 8. Queue row
 
-## 9. Контакт и история
+The compact row should surface:
 
-В карточке компании:
+**Компания · Потребность · Телефон · Приоритет · Рейтинг**
 
-- Первый контакт;
-- Последний контакт;
-- Последний комментарий.
+The opened record detail immediately exposes:
 
-Для полной истории существует техническая таблица `ИСТОРИЯ КОНТАКТОВ`, связанная с КОМПАНИЯ.
+**Кто → Почему → Зачем → Как связаться → Потребность → Сфера → Рейтинг → Скрипт → следующий шаг.**
 
-Последний комментарий используется как краткая текущая сводка и виден в ОЧЕРЕДИ.
+## 9. Status actions
 
-Полная история раскрывается из карточки компании.
+Four buttons in company record detail:
 
-Никакая автоматизация для создания истории не является обязательной частью системы.
+- ОЧЕРЕДЬ;
+- КЛИЕНТ;
+- ПЕРЕЗВОНИТЬ;
+- АРХИВ.
 
-## 10. Интерфейс
+Each button updates the single canonical status field.
 
-Основная навигация:
+No duplicate record is created.
 
-**КОМПАНИЯ | ОЧЕРЕДЬ | КЛИЕНТ | ЗАКАЗ | АРХИВ**
+The projection changes because the filter changes.
 
-На мобильном интерфейсе используется List + Record Detail.
+## 10. Contacts
 
-Нажатие на компанию открывает подробную карточку.
+ИСТОРИЯ КОНТАКТОВ contains one event per real contact attempt or conversation.
 
-В карточке:
+The company card exposes:
+- first contact;
+- last contact;
+- next contact;
+- current/latest comment;
+- full history.
 
-1. Компания и контакт;
-2. Потребность и причина;
-3. Сфера, рейтинг, приоритет;
-4. Скрипт;
-5. Последний контакт/комментарий;
-6. История контактов;
-7. Связанные заказы;
-8. дополнительные сведения, если они есть.
+The latest comment is a compact operational summary; the historical event records remain the detailed history.
 
-Технические поля и служебные источники не занимают место на первом экране карточки.
+## 11. Orders
 
-## 11. Кнопки статуса
+ЗАКАЗЫ contains one record per order.
 
-В Record Detail используются четыре прямых действия:
+Repeat business is represented by multiple order records attached to the same company.
 
-- ОЧЕРЕДЬ — зелёная логика;
-- КЛИЕНТ — синяя;
-- ПЕРЕЗВОНИТЬ — жёлтая;
-- АРХИВ — красная.
+There is no separate repeat-client object.
 
-Кнопка изменяет только канонический `Статус`.
+## 12. Technical/reference contour
 
-После изменения записи автоматически меняется состав соответствующей проекции за счёт фильтра интерфейса. Создания второй записи нет.
+Only three reference libraries are required:
 
-Airtable поддерживает кнопки Update record в Record Detail; действие может менять одно или несколько полей без автоматизации. Эти кнопки поддерживаются и в мобильных интерфейсах. citeturn990997search2turn108379search1
+- ИСТОЧНИКИ;
+- СФЕРЫ;
+- СКРИПТЫ.
 
-## 12. Почему без автоматизаций
+They support the operator but do not enter the five-list navigation.
 
-Автоматизации и AI не являются частью обязательного контура этого продукта.
+## 13. Deliberately absent
 
-Система должна быть полезной как чистая модель данных + интерфейс + ручной управляемый поиск.
+No:
+- separate КЛИЕНТ table;
+- separate ОЧЕРЕДЬ table;
+- separate АРХИВ table;
+- lead pools;
+- candidate/quarantine tables;
+- mandatory automation;
+- mandatory AI;
+- mandatory website/address columns;
+- mandatory budget estimate;
+- unnecessary analytics.
 
-Любая будущая автоматизация допускается только если появляется измеримая проблема, которую нельзя рационально решить моделью данных или интерфейсом.
+## 14. Mobile rule
 
-## 13. Причинно-следственная модель
+The first view is short and actionable.
 
-Источник → найденная компания → проверка идентичности → сбор телефона и потребности → КОМПАНИЯ → ОЧЕРЕДЬ → результат контакта → КЛИЕНТ / ПЕРЕЗВОНИТЬ / АРХИВ → ЗАКАЗ.
+Detailed context belongs behind the company click.
 
-Источники не являются лидами.
-
-Сферы не являются лидами.
-
-Скрипты не являются лидами.
-
-Технические таблицы не являются рабочими списками.
-
-## 14. Мобильный принцип
-
-Рабочая колонка должна отвечать на один вопрос за один взгляд:
-
-**кто → зачем → почему → как связаться → что говорить → что делать дальше.**
-
-Аналитика, адреса, сайты, служебные идентификаторы и источники открываются только внутри карточки.
-
-Airtable официально поддерживает List, Record Detail, поиск, фильтры, обновление записей и кнопки действий в мобильных интерфейсах. При этом браузерная мобильная версия интерфейсов не является целевым способом использования — нужен официальный Android/iOS клиент. citeturn108379search1turn108379search4
+Airtable's current Interface model supports List/Record Detail, linked-record drill-down and record-detail update buttons on iOS and Android. citeturn251792search0turn251792search1turn251792search5
