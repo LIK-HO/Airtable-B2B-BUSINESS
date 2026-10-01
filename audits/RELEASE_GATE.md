@@ -1,8 +1,8 @@
 # Release Gate
 
-Status: ACCEPTANCE_PENDING
+Status: ACCEPTANCE_FAILED_CURRENT_RUN
 
-## PASS evidence completed
+## Completed PASS evidence
 
 - [x] manifest aligned;
 - [x] roadmap and architecture contract aligned;
@@ -13,20 +13,30 @@ Status: ACCEPTANCE_PENDING
 - [x] 24 scripts populated;
 - [x] sphere parent links verified;
 - [x] primary script links verified;
-- [x] quality-gate integration smoke passed;
-- [x] projection semantics passed;
-- [x] history and order relationship tests passed;
-- [x] test data removed and final counts verified;
-- [x] legacy interface removed;
-- [x] legacy tables removed after preflight and technical evidence archived;
-- [x] no legacy business rows were deleted;
-- [x] documentation current.
+- [x] hard quality gate tested;
+- [x] projection semantics tested;
+- [x] history and order relationships tested;
+- [x] test data removed;
+- [x] legacy operator/technical tables removed after zero-business-row preflight;
+- [x] legacy technical evidence archived;
+- [x] operator interface published;
+- [x] real lead run executed;
+- [x] 9 real READY LEADS passed field completeness, source-link, sphere/script and duplicate-INN checks.
 
-## Outstanding gate
+## Failed acceptance gate
 
-- [ ] external 1000-result Moscow acceptance test;
+- [ ] 1000 potential Moscow results requested;
 - [ ] >=500 unique READY LEADS;
-- [ ] zero mandatory-field failures in ready set;
-- [ ] release acceptance record.
+- [ ] zero mandatory-field failures across the full ready set.
 
-Until the external acceptance test passes, this project is an acceptance candidate, not a fully released production version.
+Actual current run:
+- requested: 1000;
+- READY LEADS: 9;
+- shortfall: 491;
+- result: FAIL.
+
+## Release rule
+
+The product is not accepted as a complete 500/1000 lead-acquisition release while this gate is failed.
+
+Airtable may remain published for inspection, but it is not certified as the completed production lead source until the external acceptance gate passes.
