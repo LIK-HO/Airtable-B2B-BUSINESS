@@ -24,7 +24,7 @@ Status: ACCEPTANCE_PENDING
 
 ## Outstanding gate
 
-- [ ] external 1000-opportunity Moscow acceptance test;
+- [ ] external 1000-result Moscow acceptance test;
 - [ ] >=500 unique READY LEADS;
 - [ ] zero mandatory-field failures in ready set;
 - [ ] release acceptance record.
