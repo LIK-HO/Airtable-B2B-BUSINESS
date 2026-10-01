@@ -29,7 +29,7 @@ The design was re-audited, corrected, implemented in Airtable and integrated-tes
 
 ## Final external gate
 
-The user will run the Moscow-wide 1000-opportunity search.
+The user will run the Moscow-wide 1000-result search.
 Acceptance requires:
 - >=500 unique READY LEADS;
 - phone present in every ready record;
