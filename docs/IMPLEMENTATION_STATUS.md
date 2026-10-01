@@ -2,40 +2,48 @@
 
 ## GitHub
 
-Design branch contains:
+The design branch contains the finalized target contour:
 - canonical six-table model;
 - five-list operator model;
-- source registry;
-- sphere hierarchy;
-- script library;
 - Lead Acquisition Contract;
 - lead acquisition audit;
-- lead acquisition tests;
-- target schema and migration contract.
+- lead acquisition test suite;
+- target schema;
+- migration contract;
+- legacy technical archive.
 
 ## Airtable
 
-Target runtime has been built in the live B2B - BUSINESS base:
+Live base B2B - BUSINESS now contains exactly:
+- КОМПАНИЯ — 0 test/business rows;
+- ИСТОРИЯ КОНТАКТОВ — 0;
+- ЗАКАЗЫ — 0;
+- ИСТОЧНИКИ — 90;
+- СФЕРЫ — 39;
+- СКРИПТЫ — 24.
 
-- 6 target tables;
-- 90 source records;
-- 39 sphere records;
-- 24 scripts;
-- one published B2B interface;
-- five operator pages;
-- company and order detail pages;
-- hard quality gate for operator projections.
+Published operator interface:
+КОМПАНИЯ | ОЧЕРЕДЬ | КЛИЕНТ | ЗАКАЗ | АРХИВ
 
-## Current validation state
+The quality gate is enforced at the operator projection level.
 
-Not release-final yet.
+## Validation completed
 
-Outstanding:
-- complete hierarchy link verification;
-- controlled integration tests;
-- clean-state verification;
-- legacy table/interface removal;
-- final GitHub/Airtable reconciliation;
-- release audit.
+- quality gate rejects a company missing its phone;
+- status projections are mutually coherent;
+- ПЕРЕЗВОНИТЬ remains in ОЧЕРЕДЬ;
+- КЛИЕНТ and АРХИВ are separate projections of the same canonical company entity;
+- contact history attaches to the company and first/last contact rollups resolve;
+- two orders can attach to one company and one can be marked repeat;
+- sphere hierarchy links were populated and checked;
+- primary script links were populated and checked;
+- controlled test records were fully deleted after testing;
+- old interface and old tables were removed after zero-business-row preflight;
+- technical legacy evidence was archived in GitHub without storing credentials.
 
-No claim of final production readiness is made until these checks pass.
+## Current release state
+
+**ACCEPTANCE_PENDING**
+
+The only remaining project-level gate is the external Moscow 1000-opportunity search:
+>=500 unique READY LEADS and zero mandatory-field failures.
