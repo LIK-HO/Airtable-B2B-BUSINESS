@@ -4,30 +4,29 @@
 Scope, naming, repository contract, Airtable target.
 
 ## Phase 1 — Core
-Entities, invariants, lifecycle states, duplicate identity rules.
+Canonical company identity, work statuses, duplicate rule by INN, order relation, contact history relation.
 
 ## Phase 2 — Data Model
-Tables, links, controlled vocabularies, technical-field policy.
+Compact canonical tables: КОМПАНИЯ, ИСТОРИЯ КОНТАКТОВ, ЗАКАЗЫ, ИСТОЧНИКИ, СФЕРЫ, СКРИПТЫ. Define field visibility and relationship rules.
 
 ## Phase 3 — Security & Data Safety
-Access model, audit ledger, duplicate/orphan checks, recovery contract.
+Permissions, technical-field isolation, duplicate-by-INN checks, orphan checks, recovery/export contract.
 
-## Phase 4 — Lead Factory & Operator Layer
-Automated lead discovery, enrichment, authoritative verification, phone verification, category qualification, deduplication, quarantine, ready-stock management and minimal operator surface.
+## Phase 4 — Operator Layer
+Five mobile-first projections:
+КОМПАНИЯ → ОЧЕРЕДЬ → КЛИЕНТ → ЗАКАЗ → АРХИВ.
+Shared record detail for all projections, status actions, linked history and linked orders.
 
-## Phase 5 — Automation
-Only deterministic, idempotent and bounded automations first.
+## Phase 5 — Source Intelligence
+Populate and structure the source registry (government, maps, jobs, tenders, commercial databases, industry sources) and the sphere/script libraries.
 
-## Phase 6 — Integration Contract
-API/event boundaries, idempotency, source adapters, export/import and future migration.
+## Phase 6 — Validation
+Representative data-set test, projection integrity, status transition tests, duplicate tests, mobile UX checks, data-safety/security review.
 
-## Phase 7 — Full Validation
-Unit -> integration -> regression -> security -> data-safety -> recovery, including end-to-end lead pipeline tests.
+## Phase 7 — Release
+Documentation, acceptance record, versioning and release audit.
 
-## Phase 8 — Release
-Documentation, versioning, acceptance record and release audit.
+### Current design branch
+The five-list operating model, source registry, sphere matrix and script library are design artifacts only on branch `design/lead-factory`.
 
-### Current baseline
-Phase 0-2: deployed.
-Phase 3: baseline controls deployed; duplicate detector and recovery drill remain in progress.
-Phase 4: lead-factory contract is design-only on branch design/lead-factory; Airtable implementation is not authorized by this branch.
+Airtable implementation must not begin until the design is accepted and the live base has been reconciled against it.
