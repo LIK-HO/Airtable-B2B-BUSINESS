@@ -86,7 +86,7 @@ No projection creates another company record.
 
 ## H. Coverage benchmark
 
-For the operator's 1000-opportunity Moscow search:
+For the operator's 1000-result Moscow search:
 
 - measure total unique READY LEADS;
 - pass threshold: >= 500;
