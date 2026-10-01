@@ -4,186 +4,68 @@
 
 The operator surface is exactly five areas:
 
-**КОМПАНИЯ · ОЧЕРЕДЬ · КЛИЕНТ · ЗАКАЗ · АРХИВ**
+КОМПАНИЯ · ОЧЕРЕДЬ · КЛИЕНТ · ЗАКАЗ · АРХИВ
 
 Everything else is supporting/reference data.
 
-The operator is not expected to maintain a lead-processing machine. Airtable is the clean operational workspace around already prepared company data and its business history.
+## 2. Canonical company
 
-## 2. Canonical company record
+One organization = one КОМПАНИЯ record.
+Identity key = normalized INN.
 
-КОМПАНИЯ contains exactly one record per organization.
+## 3. What enters the operational dataset
 
-The identity key is the normalized ИНН.
-
-The company record contains the compact facts required to decide whether to contact and how to contact:
-
-**Компания · ИНН · Телефон · Потребность · ЛПР/должность · Сфера · Рейтинг · Дата внесения**
-
-The record detail contains the extended context:
-
-**Почему · Зачем · Скрипт · Приоритет · Статус · Первый/последний контакт · Следующий контакт · Последний комментарий · История · Источники · Заказы · адрес/сайт/доп. телефоны, если известны.**
-
-## 3. What enters КОМПАНИЯ
-
-Only companies that are already operationally usable:
-- identity confirmed;
-- INN confirmed;
-- active organization status confirmed where relevant;
-- at least one usable general phone;
-- relevant sphere identified;
+A company must already have:
+- Moscow/target geography fit;
+- confirmed INN;
+- active status where applicable;
+- usable general business phone;
+- sphere;
 - concrete need or strong documented need signal;
-- clear reason for relevance;
-- expected decision-maker role;
-- source evidence retained;
+- evidence-backed Почему;
+- meaningful Зачем;
+- evidence-backed Основание потребности;
+- known or explicitly inferred LPR role;
 - rating 3–5.
 
-There is no visible pool of unverified companies.
+No manual verification state is shown to the operator.
 
-## 4. Почему / Зачем / Потребность
+## 4. Lead acquisition logic
 
-These fields have distinct meanings.
+Search is conducted by sphere × need × source × scenario.
+Phone discovery uses multiple sources.
+Identity is resolved before admission.
+Duplicates are merged by normalized INN.
+Weak signals do not become confirmed needs.
 
-**Почему** — why this company belongs in the target segment.
+## 5. Queue
 
-**Зачем** — the business task that creates the opportunity.
+ОЧЕРЕДЬ shows:
+- Status = ОЧЕРЕДЬ or ПЕРЕЗВОНИТЬ;
+- sorted by priority score, rating and date for new records;
+- callbacks remain in the same work surface.
 
-**Потребность** — the concrete service/work need that can be discussed.
+## 6. Company detail
 
-Example:
+First useful chain:
 
-- Почему: регулярно работает на строительных объектах.
-- Зачем: усилить объектную бригаду на пиковых работах.
-- Потребность: разгрузка и подъём строительных материалов.
+Кто → Почему → Зачем → Как связаться → Потребность → Сфера → Рейтинг → Скрипт → следующий шаг.
 
-The wording must distinguish verified facts from reasonable inference.
+Extended detail contains history, orders, sources and optional address/site/secondary phones.
 
-## 5. Status model
+## 7. Orders
 
-Exactly four operator statuses:
+Every order has one company link.
+Repeat order = another order record for the same company.
 
-**ОЧЕРЕДЬ** — not yet processed.
+## 8. Quality gate
 
-**КЛИЕНТ** — agreement reached / client relationship established.
+Airtable operator pages expose only records for which Контроль качества = 1.
+This prevents incomplete records from leaking into the work surface.
 
-**ПЕРЕЗВОНИТЬ** — conversation occurred or callback agreed; next action remains.
+## 9. External acceptance
 
-**АРХИВ** — not reached, declined, or otherwise closed for current work.
+The operator may run a 1000-opportunity Moscow search across all sphere hierarchy.
+The project acceptance threshold is >=500 unique ready records with no missing mandatory core fields or broken semantic chain.
 
-Color semantics:
-
-green / blue / yellow / red respectively.
-
-## 6. Projection logic
-
-КОМПАНИЯ shows all company records.
-
-ОЧЕРЕДЬ shows records with status ОЧЕРЕДЬ or ПЕРЕЗВОНИТЬ.
-
-КЛИЕНТ shows status КЛИЕНТ.
-
-АРХИВ shows status АРХИВ.
-
-ЗАКАЗ is its own order table.
-
-No projection creates a second company record.
-
-## 7. Queue behavior
-
-ОЧЕРЕДЬ is the main work surface.
-
-Priority hierarchy:
-1. High priority;
-2. Medium priority;
-3. Low priority.
-
-Within priority:
-- rating descending;
-- newest records first for new leads;
-- next-contact date ascending for callbacks.
-
-The queue can be visually grouped into:
-
-**НОВЫЕ** — ОЧЕРЕДЬ
-
-**ПЕРЕЗВОНИТЬ** — ПЕРЕЗВОНИТЬ
-
-This remains one page, not two tables.
-
-## 8. Queue row
-
-The compact row should surface:
-
-**Компания · Потребность · Телефон · Приоритет · Рейтинг**
-
-The opened record detail immediately exposes:
-
-**Кто → Почему → Зачем → Как связаться → Потребность → Сфера → Рейтинг → Скрипт → следующий шаг.**
-
-## 9. Status actions
-
-Four buttons in company record detail:
-
-- ОЧЕРЕДЬ;
-- КЛИЕНТ;
-- ПЕРЕЗВОНИТЬ;
-- АРХИВ.
-
-Each button updates the single canonical status field.
-
-No duplicate record is created.
-
-The projection changes because the filter changes.
-
-## 10. Contacts
-
-ИСТОРИЯ КОНТАКТОВ contains one event per real contact attempt or conversation.
-
-The company card exposes:
-- first contact;
-- last contact;
-- next contact;
-- current/latest comment;
-- full history.
-
-The latest comment is a compact operational summary; the historical event records remain the detailed history.
-
-## 11. Orders
-
-ЗАКАЗЫ contains one record per order.
-
-Repeat business is represented by multiple order records attached to the same company.
-
-There is no separate repeat-client object.
-
-## 12. Technical/reference contour
-
-Only three reference libraries are required:
-
-- ИСТОЧНИКИ;
-- СФЕРЫ;
-- СКРИПТЫ.
-
-They support the operator but do not enter the five-list navigation.
-
-## 13. Deliberately absent
-
-No:
-- separate КЛИЕНТ table;
-- separate ОЧЕРЕДЬ table;
-- separate АРХИВ table;
-- lead pools;
-- candidate/quarantine tables;
-- mandatory automation;
-- mandatory AI;
-- mandatory website/address columns;
-- mandatory budget estimate;
-- unnecessary analytics.
-
-## 14. Mobile rule
-
-The first view is short and actionable.
-
-Detailed context belongs behind the company click.
-
-Airtable's current Interface model supports List/Record Detail, linked-record drill-down and record-detail update buttons on iOS and Android. citeturn251792search0turn251792search1turn251792search5
+This measures the quality of the integrated acquisition process, not merely the number of raw search hits.
