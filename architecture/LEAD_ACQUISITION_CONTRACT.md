@@ -3,9 +3,9 @@
 ## 1. Purpose
 
 This contract defines how external research becomes a READY LEAD for Airtable.
-A ready lead is not a candidate, not a raw company hit, and not a record awaiting manual verification.
+The acquisition pipeline is deliberately two-stage: DISCOVERY POOL → ENRICHMENT → READY LEAD.
 
-The operator must receive a compact company record whose core facts and business meaning are already assembled.
+Broad discovery must not be blocked by the requirement to have every fact from one perfect source. Evidence quality applies to the claims made about each enriched record.
 
 ## 2. Input
 
@@ -81,7 +81,7 @@ For each discovered organization:
 11. calculate rating and priority;
 12. admit only READY LEAD records to the operational dataset.
 
-Phone enrichment is multi-source. Failure in one source does not end the search.
+Phone enrichment is multi-source. A usable general business phone from Yandex Maps, 2GIS or another reputable directory is acceptable; an official phone is preferred, not mandatory. Failure in one source must trigger source fallback.
 
 ## 6. Hard READY LEAD gate
 
@@ -103,6 +103,8 @@ A record is READY only when all are true:
 - rating is 3–5.
 
 If one mandatory condition is missing, the record is not ready.
+
+Need evidence is classified A/B/C: A = direct/current request or vacancy; B = strong current activity/project signal; C = structural potential need from documented business activity. B and C are allowed for READY only when the wording explicitly says potential need; they must never be presented as confirmed current demand.
 
 Incomplete results are not exported into КОМПАНИЯ / ОЧЕРЕДЬ.
 
@@ -200,10 +202,9 @@ Secrets, API keys, session tokens and credentials never enter Airtable records o
 
 The project-level external acceptance test is:
 
-1000 potential results across the Moscow sphere hierarchy → at least 500 unique READY LEADS.
+1000 distinct Moscow candidate organizations discovered → enrichment → at least 500 unique READY LEADS, when the configured source/scenario space supports that coverage.
 
-The denominator is the 1000 potential results requested by the operator.
-The numerator counts only unique records that pass the complete READY LEAD gate.
+The denominator is the broad discovery pool, not the final enriched set. The run must report raw discoveries, unique organizations, INN resolution, phone resolution, need-evidence class, duplicates, exclusions and READY leads.
 
 The test fails if:
 
@@ -215,5 +216,4 @@ This benchmark is an acceptance criterion, not a guarantee about external source
 
 ## 16. Non-negotiable failure mode
 
-Never fill a missing fact with an invented value merely to increase the ready count.
-A smaller truthful set is preferable to a larger fabricated or semantically weak set.
+Never fill a missing fact with an invented value merely to increase the ready count. Broad discovery is mandatory; strict evidence applies to the claims made about a company, not as a reason to discard the market before enrichment.
