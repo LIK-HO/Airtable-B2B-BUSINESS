@@ -25,8 +25,9 @@ Status: ACCEPTANCE_FAILED_CURRENT_RUN
 
 ## Failed acceptance gate
 
-- [ ] 1000 potential Moscow results requested;
+- [ ] >=1000 distinct Moscow candidate organizations discovered where source coverage permits;
 - [ ] >=500 unique READY LEADS;
+- [ ] complete acquisition funnel reported;
 - [ ] zero mandatory-field failures across the full ready set.
 
 Actual current run:
@@ -39,4 +40,4 @@ Actual current run:
 
 The product is not accepted as a complete 500/1000 lead-acquisition release while this gate is failed.
 
-Airtable may remain published for inspection, but it is not certified as the completed production lead source until the external acceptance gate passes.
+Airtable may remain published for inspection, but it is not certified as the completed production lead source until the new external acceptance gate passes.
